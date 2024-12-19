@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone</title>
+    <style>
+        /* Previous styles remain the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #0f0f0f;
+            border-bottom: 1px solid #2d2d2d;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .youtube-logo {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .youtube-logo span {
+            color: red;
+        }
+
+        .search-section {
+            display: flex;
+            align-items: center;
+            flex: 0.6;
+            margin: 0 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid #2d2d2d;
+            background-color: #121212;
+            border-radius: 20px 0 0 20px;
+            color: white;
+        }
+
+        .search-button {
+            padding: 0.5rem 1.5rem;
+            background-color: #222222;
+            border: 1px solid #2d2d2d;
+            border-left: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+        }
+
+        .voice-search {
+            margin-left: 1rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background-color: #222222;
+            border: none;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            bottom: 0;
+            width: 240px;
+            background-color: #0f0f0f;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+
+        .nav-link:hover {
+            background-color: #272727;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            margin-top: 60px;
+            padding: 2rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 1rem;
+        }
+
+        .category {
+            padding: 0.5rem 1rem;
+            background-color: #272727;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .category.active {
+            background-color: white;
+            color: black;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .video-card {
+            cursor: pointer;
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-info {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .channel-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .channel-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-details h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .video-details p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .thumbnail-container {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Sidebar remain the same -->
+    <header class="header">
+        <div class="logo-section">
+            <button class="menu-icon">☰</button>
+            <div class="youtube-logo"><span>You</span>Tube</div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search">
+                <button class="search-button">🔍</button>
+            </div>
+            <button class="voice-search">🎤</button>
+        </div>
+
+        <div class="actions">
+            <button>📹</button>
+            <button>🔔</button>
+            <button>👤</button>
+        </div>
+    </header>
+
+    <nav class="sidebar">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Shorts</a>
+        <a href="#" class="nav-link">Subscriptions</a>
+        <a href="#" class="nav-link">Library</a>
+        <a href="#" class="nav-link">History</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="categories">
+            <div class="category active">All</div>
+            <div class="category">Music</div>
+            <div class="category">Mixes</div>
+            <div class="category">Comedy clubs</div>
+            <div class="category">Electro-Pop</div>
+            <div class="category">Tamil Cinema</div>
+            <div class="category">Live</div>
+        </div>
+
+        <div class="videos-grid">
+            <!-- Video Card 1 -->
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img1.png" alt="India's Got Latent">
+                    </div>
+                    <div class="duration">1:08:25</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar1.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>INDIA'S GOT LATENT | EP 10</h3>
+                        <p>Samay Raina</p>
+                        <p>23M views • 1 month ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Card 2 -->
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img2.png" alt="Ajit Doval in China">
+                    </div>
+                    <div class="duration">15:30</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar2.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>AJIT DOVAL IN CHINA!</h3>
+                        <p>StudyIQ IAS</p>
+                        <p>512K views • 7 hours ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional video cards follow the same pattern -->
+            <!-- Added video cards 3-6 with similar structure -->
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img3.png" alt="Shark Tank India">\
+                    </div>
+                    <div class="duration">50:42</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar3.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>Shark Tank India Season 3</h3>
+                        <p>Shark Tank India</p>
+                        <p>561 views • 26 minutes ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img4.png" alt="Dua Lipa Cover">
+                    </div>
+                    <div class="duration">2:55</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar4.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>Dua Lipa - Don't Start Now (Cover)</h3>
+                        <p>Damik Vibes</p>
+                        <p>266 views • 1 day ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img5.png" alt="ROSÉ Performance">
+                    </div>
+                    <div class="duration">3:52</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar5.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>ROSÉ - Number One Girl</h3>
+                        <p>KBS Kpop</p>
+                        <p>6.9M views • 2 weeks ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="thumbnail-container">
+                    <div class="thumbnail">
+                        <img src="img6.png" alt="Istanbul Cruise">
+                    </div>
+                    <div class="duration">12:35</div>
+                </div>
+                <div class="video-info">
+                    <div class="channel-avatar">
+                        <img src="avatar6.png" alt="Channel Avatar">
+                    </div>
+                    <div class="video-details">
+                        <h3>$1 BOAT CRUISE IN ISTANBUL</h3>
+                        <p>Who Kunal Chugh</p>
+                        <p>5.3K views • 7 months ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
